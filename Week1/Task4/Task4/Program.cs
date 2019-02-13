@@ -6,13 +6,18 @@ namespace Task4
     {
         static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
-            string[,] arr = new string[n,n]; 
-            for (int i = 0; i < n; i++)
+            int n = int.Parse(Console.ReadLine());//считываем размерность массива
+            string[,] arr = new string[n,n]; //это будет двумерный массив - квадратная матрица
+            //элементы выше главной диагонали будут пустыми, ниже - "[*]"
+            //по умолчанию все элементы пустые
+            //нам осталось поменять только те, что на ГГ и ниже
+            for (int i = 0; i < n; i++)//пробегаем по строкам
             {
-                for (int j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)//и столбцам
                 {
-                    if (i >= j) arr[i, j] = "[*]";
+                    //формула главной диагонали i=j (индексы равны)
+                    if (i >= j) arr[i, j] = "[*]";//если индексы элемента равны или
+                    //номер столбца меньше номера строки, присваиваем значение "[*]"
                 }
             }
                 
@@ -20,11 +25,11 @@ namespace Task4
             {
                 for (int j = 0; j < n; j++)
                 {
-                    Console.Write(arr[i, j]);
+                    Console.Write(arr[i, j]);//теперь просто выводим массив
                 }
-                Console.WriteLine();
+                Console.WriteLine();//разделяет строки
             }
-            Console.ReadKey();
+            Console.ReadKey();//ждет нажатия клавиши пользователем
 
         }
     }
