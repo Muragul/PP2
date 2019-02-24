@@ -56,17 +56,19 @@ namespace Task1
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.ForegroundColor = ConsoleColor.White;
                 currentFs = fs;//и это будет текущий файл/директорий
-            } else
+            }
+            else
             //в противном случае просто определяем
             if (fs.GetType() == typeof(DirectoryInfo))//директорий это
-                {
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.White;
-                } else
-                {//или файл
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                }//и окрашиваем в соответствующие цвета
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {//или файл
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }//и окрашиваем в соответствующие цвета
         }
 
         public void CalcSz()//в зависимости от скрытых файлов, размер всегда будет меняться
@@ -80,7 +82,7 @@ namespace Task1
                         size--;//отнимаем от размерности массива элементов
         }
 
-        public void Show()//функция будет выводить имя элемента
+        public void Show1()//функция будет выводить имя элемента
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Clear();//очищаем фон
@@ -93,12 +95,30 @@ namespace Task1
                     continue;//продолжаем
                 }//иначе
                 Color(fs[i], k);//определяем цвет с помощью функции и индекса
-                Console.Write(k+1); Console.Write('.');//выводим нумерацию
+                Console.Write(k + 1); Console.Write('.');//выводим нумерацию
                 Console.WriteLine(fs[i].Name);//и имя элемента
                 k++;//отдельный счетчик для нумерации
             }
         }
+        public void Show()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Clear();
+            directory = new DirectoryInfo(path);
+            FileSystemInfo[] fs = directory.GetFileSystemInfos();
+            int index = 0;
+            for (int i = 0, k = 0; i < fs.Length; i++)
+            {
+                if (ok == false && fs[i].Name[0] == '.') continue;
 
+                {
+                    Color(fs[i], k);
+                    Console.Write(index + 1); Console.Write('.');
+                    Console.WriteLine(fs[i].Name);
+                    k++; index++;
+                }
+            }
+        }
         public void Start()//функция для запуска реагирует на нажатия пользователем клавиши
         {
             ConsoleKeyInfo CK = Console.ReadKey();
@@ -133,8 +153,8 @@ namespace Task1
                 }
                 if (CK.Key == ConsoleKey.Backspace)//если нажали Backspace
                 {
-                     cursor = 0;
-                     path = directory.Parent.FullName;//перемещаемся в предыдущую папку
+                    cursor = 0;
+                    path = directory.Parent.FullName;//перемещаемся в предыдущую папку
                 }
                 if (CK.Key == ConsoleKey.Delete)//если нажали Delete
                 {
@@ -157,9 +177,9 @@ namespace Task1
 
                     if (currentFs.GetType() == typeof(FileInfo))//если это файл
                     {
-                         string sourcefile = currentFs.FullName;//первоначальный файл мы
-                         string destfile = Path.Combine(path1, name);
-                         File.Move(sourcefile, destfile);//преобразуем во второй
+                        string sourcefile = currentFs.FullName;//первоначальный файл мы
+                        string destfile = Path.Combine(path1, name);
+                        File.Move(sourcefile, destfile);//преобразуем во второй
                     }
                     else
                     if (currentFs.GetType() == typeof(DirectoryInfo))//если папка
@@ -168,20 +188,19 @@ namespace Task1
                         string destdir = Path.Combine(path1, name);//к ссылке папки добавляем имя элемента
                         Directory.Move(sourcedir, destdir);
                     }//получается, что мы на самом деле копируем старый элемент в новый, изменяя название
-                   
+
                 }
             }
         }
 
-    } 
-
-    class Program
-    {
-        static void Main(string[] args)
+        class Program
         {
-            string path = "C:/Users/Асер/Desktop/PP2";
-            FarManager FarManager = new FarManager(path);
-            FarManager.Start();
+            static void Main(string[] args)
+            {
+                string path = "C:/Users/Асер/Desktop/PP2";
+                FarManager FarManager = new FarManager(path);
+                FarManager.Start();
+            }
         }
     }
 }
