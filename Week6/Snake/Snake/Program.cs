@@ -60,7 +60,7 @@ namespace Snake
         {
             Random random = new Random();
             int x = random.Next(1, 100);
-            int y = random.Next(1, 30);
+            int y = random.Next(1, 25);
             body[0].x = x;
             body[0].y = y;
         }
@@ -97,6 +97,10 @@ namespace Snake
 
         public void Start()
         {
+            Console.Clear();
+            int k = 0;
+            Console.WriteLine("Write your username");
+            string s = Console.ReadLine();
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             while (isAlive && keyInfo.Key != ConsoleKey.Escape)
             {
@@ -105,6 +109,7 @@ namespace Snake
                 if (snake.IsCollisionWithObject(food))
                 {
                     snake.body.Add(new Point(0, 0));
+                    k++;
                     while (food.IsCollisionWithObject(snake) || food.IsCollisionWithObject(wall))
                         food.Generate();
 
@@ -122,6 +127,11 @@ namespace Snake
             Console.SetCursorPosition(20, 10);
             Console.WriteLine("GAME OVER!!!");
             Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine(s);
+            Console.Write("Your score:"+k*100);
+            Console.ReadKey();
+
         }
         public void Draw()
         {
@@ -275,13 +285,7 @@ namespace Snake
         {
             Console.CursorVisible = false;
             cursor = 0;
-            Console.WriteLine("Write your username");
-            string s = Console.ReadLine();
             Start();
-            Console.Clear();
-            Console.WriteLine(s);
-            Console.Write("Your score:");
-            Console.ReadKey();
         }
     }
 }
