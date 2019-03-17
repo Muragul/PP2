@@ -59,7 +59,7 @@ namespace Snake
         public void Generate()
         {
             Random random = new Random();
-            int x = random.Next(1, 100);
+            int x = random.Next(50, 100);
             int y = random.Next(1, 25);
             body[0].x = x;
             body[0].y = y;
@@ -116,8 +116,8 @@ namespace Snake
                     if (snake.body.Count % 3 == 0)
                         wall.NextLevel();
                 }
-                if (snake.IsCollisionWithObject(wall))
-                {
+                    if (snake.IsCollisionWithObject(wall) || snake.IsCollisionWithSnake(snake))
+                    {
                     isAlive = false;
                 }
                 snake.Move(keyInfo);
@@ -181,6 +181,16 @@ namespace Snake
             }
         }
 
+        public bool IsCollisionWithSnake(Snake snake)
+        {
+            for (int i = 1; i < snake.body.Count; i++)
+            {
+                if (snake.body[i].x == body[0].x && snake.body[i].y == body[0].y)
+                    return true;
+            }
+            return false;
+        }
+
         public bool IsCollisionWithObject(GameObject obj)
         {
             // Check obj is instance of Snake 
@@ -207,7 +217,6 @@ namespace Snake
         public Snake(int x, int y, char sign, ConsoleColor color) : base(x, y, sign, color)
         {
         }
-
         public void Move(ConsoleKeyInfo consoleKey)
         {
             for (int i = body.Count - 1; i > 0; i--)
@@ -215,14 +224,18 @@ namespace Snake
                 body[i].x = body[i - 1].x;
                 body[i].y = body[i - 1].y;
             }
-            if (consoleKey.Key == ConsoleKey.UpArrow)
+            if (consoleKey.Key == ConsoleKey.UpArrow && direction!=Direction.Down)
                 body[0].y--;
-            if (consoleKey.Key == ConsoleKey.DownArrow)
+            if (consoleKey.Key == ConsoleKey.DownArrow && direction != Direction.Up)
                 body[0].y++;
-            if (consoleKey.Key == ConsoleKey.LeftArrow)
+            if (consoleKey.Key == ConsoleKey.LeftArrow && direction != Direction.Right)
                 body[0].x--;
-            if (consoleKey.Key == ConsoleKey.RightArrow)
+            if (consoleKey.Key == ConsoleKey.RightArrow && direction!=Direction.Left)
                 body[0].x++;
+            if (consoleKey.Key == ConsoleKey.Escape)
+            {
+                Serializer();
+            }
         }
     }
 
