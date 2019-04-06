@@ -8,11 +8,44 @@ namespace Calculator
 {
     class CalcBase
     {
-        public float first_number;
-        public float second_number;
-        public float result;
+        public double first_number;
+        public double second_number;
+        public double result;
         public string operation;
-
+        public double memory;
+        
+        public void Memory()
+        {
+            switch (operation)
+            {
+                case "M+":
+                    memory += first_number;
+                    break;
+                case "M-":
+                    memory -= first_number;
+                    break;
+            }
+        }
+        public void MathFunc()
+        {
+            switch (operation)
+            {
+                case "x^2":
+                    result = first_number * first_number;
+                    break;
+                case "root":
+                    result = Math.Sqrt(first_number);
+                    break;
+                case "sin":
+                    double rad = first_number * Math.PI / 180;
+                    result = Math.Sin(rad);
+                    break;
+                case "cos":
+                    double RAD = first_number * Math.PI / 180;
+                    result = Math.Cos(RAD);
+                    break;
+            }
+        }
         public void Calculate()
         {
             switch (operation)
