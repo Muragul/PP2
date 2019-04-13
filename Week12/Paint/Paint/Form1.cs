@@ -13,10 +13,18 @@ namespace Paint
     public partial class Form1 : Form
     {
         Bitmap bitmap;
+        public Pen pen = new Pen(Color.Black, 4);
         Graphics g;
         bool mouseclicked = false;
         Point prev;
         Point cur;
+        public enum tool
+        {
+            pen,
+            rectangle,
+            ellipse
+        }
+        public tool pencil = tool.pen; 
 
         public Form1()
         {
@@ -39,18 +47,61 @@ namespace Paint
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseclicked = false;
+            if (pencil == tool.rectangle) DrawRectangle(g);
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouseclicked)
             {
-                Pen pen = new Pen(Color.Black, 4);
-                cur = e.Location;
-                g.DrawLine(pen, prev, cur);
-                prev = cur;
+                if (pencil == tool.pen)
+                {
+                    cur = e.Location;
+                    g.DrawLine(pen, prev, cur);
+                    prev = cur;
+                } else 
+                if (pencil == tool.rectangle)
+                {
+                    cur = e.Location;
+                    //g.DrawRectangle(pen, prev.X, prev.Y, prev.X - cur.X, prev.Y - cur.Y);
+                }
+                //else
+                //{
+                //    cur = e.Location;
+                //    g.DrawEllipse(pen, prev.X, prev.Y, prev.X - cur.X, prev.Y - cur.Y);
+                //}
+
                 pictureBox1.Refresh();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            pencil = tool.rectangle;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            pencil = tool.ellipse;
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            DrawRectangle(e.Graphics);
+        }
+
+        public void DrawRectangle(Graphics g)
+        {
+            int minx = Math.Min(prev.X, cur.X);
+            int maxx = Math.Max(prev.X, cur.X);
+            int miny = Math.Min(prev.Y, cur.Y);
+            int maxy = Math.Max(prev.Y, cur.Y);
+            g.DrawRectangle(pen, minx, maxx, maxx - minx, maxy - miny);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pencil = tool.pen;
         }
     }
 }
