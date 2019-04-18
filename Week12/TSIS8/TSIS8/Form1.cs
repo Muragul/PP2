@@ -30,7 +30,6 @@ namespace TSIS8
             g.FillRectangle(brush, 10, 10, Width - 35, Height - 60);
 
             //рисуем звезды
-            SolidBrush solidBrush = new SolidBrush(Color.White);
             Circle star1 = new Circle(40, 60, e);
             Circle star2 = new Circle(60, 300, e);
             Circle star3 = new Circle(250, 40, e);
@@ -41,12 +40,13 @@ namespace TSIS8
             Circle star8 = new Circle(600, 300, e);
 
             //info table
+            SolidBrush solidBrush = new SolidBrush(Color.White);
             Pen pen = new Pen(Color.Yellow, 3);
             g.DrawRectangle(pen, 450, 15, 200, 30);
             g.FillRectangle(solidBrush, 452, 17, 197, 27);
             g.DrawString("Level: 1 Score: 300 Live: ***", new Font("Calibri", 12F), new SolidBrush(Color.Black), 450, 20);
 
-
+            //шестиугольник
             Point[] points =
             {
                 new Point(300,160),
@@ -59,10 +59,11 @@ namespace TSIS8
             SolidBrush brush1 = new SolidBrush(Color.Yellow);
             GraphicsPath path = new GraphicsPath();
             path.StartFigure();
-            path.AddCurve(points, 0);
+            path.AddLines(points);
             path.CloseFigure();
             g.FillPath(brush1, path);
 
+            //стрелка
             SolidBrush brush2 = new SolidBrush(Color.Green);
             Point[] points1 =
             {
@@ -76,18 +77,50 @@ namespace TSIS8
             };
             GraphicsPath path1 = new GraphicsPath();
             path1.StartFigure();
-            path1.AddCurve(points1, 0);
+            path1.AddLines(points1);
             path1.CloseFigure();
             g.FillPath(brush2, path1);
 
+            //астероиды
+            Asteroid asteroid1 = new Asteroid(100, 130, e);
+            Asteroid asteroid2 = new Asteroid(150, 240, e);
+            Asteroid asteroid3 = new Asteroid(530, 90, e);
+            Asteroid asteroid4 = new Asteroid(440, 250, e);
+            
         }
     }
     public class Asteroid
-    {
+    {//создание астероидов
+        Graphics g;
         int x, y;
+        SolidBrush brush = new SolidBrush(Color.Red);
         public Asteroid(int x,int y,PaintEventArgs e)
         {
-
+            this.x = x;
+            this.y = y;
+            g = e.Graphics;
+            Point[] points =
+            {
+                new Point(x,y),
+                new Point(x+40,y),
+                new Point(x+20,y+30)
+            };
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddLines(points);
+            path.CloseFigure();
+            g.FillPath(brush, path);
+            Point[] points1 =
+            {
+                new Point(x+20,y-10),
+                new Point(x+40,y+20),
+                new Point(x,y+20)
+            };
+            GraphicsPath path1 = new GraphicsPath();
+            path1.StartFigure();
+            path1.AddLines(points1);
+            path1.CloseFigure();
+            g.FillPath(brush, path1);
         }
     }
 
