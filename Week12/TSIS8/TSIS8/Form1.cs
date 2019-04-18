@@ -46,8 +46,51 @@ namespace TSIS8
             g.FillRectangle(solidBrush, 452, 17, 197, 27);
             g.DrawString("Level: 1 Score: 300 Live: ***", new Font("Calibri", 12F), new SolidBrush(Color.Black), 450, 20);
 
+
+            Point[] points =
+            {
+                new Point(300,160),
+                new Point(350,140),
+                new Point(400,160),
+                new Point(400,200),
+                new Point(350,220),
+                new Point(300,200)
+            };
+            SolidBrush brush1 = new SolidBrush(Color.Yellow);
+            GraphicsPath path = new GraphicsPath();
+            path.StartFigure();
+            path.AddCurve(points, 0);
+            path.CloseFigure();
+            g.FillPath(brush1, path);
+
+            SolidBrush brush2 = new SolidBrush(Color.Green);
+            Point[] points1 =
+            {
+                new Point(330,180),
+                new Point(350,160),
+                new Point(370,180),
+                new Point(360,180),
+                new Point(360,200),
+                new Point(340,200),
+                new Point(340,180)
+            };
+            GraphicsPath path1 = new GraphicsPath();
+            path1.StartFigure();
+            path1.AddCurve(points1, 0);
+            path1.CloseFigure();
+            g.FillPath(brush2, path1);
+
         }
     }
+    public class Asteroid
+    {
+        int x, y;
+        public Asteroid(int x,int y,PaintEventArgs e)
+        {
+
+        }
+    }
+
     public class Circle
     {//класс для создания звезд
         Graphics g;
