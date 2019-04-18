@@ -29,12 +29,7 @@ namespace Paint
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseclicked = true;
-            prev = e.Location;
+            this.BackColor = Color.White;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -43,13 +38,17 @@ namespace Paint
             g = Graphics.FromImage(bitmap);
             pictureBox1.Image = bitmap;
         }
-
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseclicked = true;
+            prev = e.Location;
+        }
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseclicked = false;
-            if (pencil == tool.rectangle) DrawRectangle(g);
+            if (pencil == tool.rectangle) DrawRectangle(g); else
+            if (pencil == tool.ellipse) DrawEllipse(g);
         }
-
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouseclicked)
@@ -63,14 +62,11 @@ namespace Paint
                 if (pencil == tool.rectangle)
                 {
                     cur = e.Location;
-                    //g.DrawRectangle(pen, prev.X, prev.Y, prev.X - cur.X, prev.Y - cur.Y);
                 }
-                //else
-                //{
-                //    cur = e.Location;
-                //    g.DrawEllipse(pen, prev.X, prev.Y, prev.X - cur.X, prev.Y - cur.Y);
-                //}
-
+                else
+                {
+                    cur = e.Location;
+                }
                 pictureBox1.Refresh();
             }
         }
@@ -87,21 +83,52 @@ namespace Paint
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            DrawRectangle(e.Graphics);
+            if (pencil == tool.rectangle) DrawRectangle(e.Graphics);
+            else if (pencil == tool.ellipse) DrawEllipse(e.Graphics);
         }
 
+        public void DrawEllipse(Graphics g)
+        {
+            int minx = Math.Min(prev.X, cur.X);
+            int maxx = Math.Max(prev.X, cur.X);
+            int miny = Math.Min(prev.Y, cur.Y);
+            int maxy = Math.Max(prev.Y, cur.Y);
+            g.DrawEllipse(pen, minx, miny, maxx - minx, maxy - miny);
+        }
         public void DrawRectangle(Graphics g)
         {
             int minx = Math.Min(prev.X, cur.X);
             int maxx = Math.Max(prev.X, cur.X);
             int miny = Math.Min(prev.Y, cur.Y);
             int maxy = Math.Max(prev.Y, cur.Y);
-            g.DrawRectangle(pen, minx, maxx, maxx - minx, maxy - miny);
+            g.DrawRectangle(pen, minx, miny, maxx - minx, maxy - miny);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             pencil = tool.pen;
+            pen.Color = Color.Black;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            pen.Color = Color.White;
+            pencil = tool.pen;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            pen.Color = Color.Red;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            pen.Color = Color.Blue;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            pen.Color = Color.Green;
         }
     }
 }
