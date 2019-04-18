@@ -17,7 +17,6 @@ namespace TSIS8
         public Form1()
         {
             InitializeComponent();
-            //черный задний фон
             this.BackColor = Color.Black;
         }
 
@@ -25,11 +24,11 @@ namespace TSIS8
         {
             g = e.Graphics;
 
-            //создадим синий фон
+            //sky
             SolidBrush brush = new SolidBrush(Color.Blue);
             g.FillRectangle(brush, 10, 10, Width - 35, Height - 60);
 
-            //рисуем звезды
+            //stars
             Circle star1 = new Circle(40, 60, e);
             Circle star2 = new Circle(60, 300, e);
             Circle star3 = new Circle(250, 40, e);
@@ -46,7 +45,7 @@ namespace TSIS8
             g.FillRectangle(solidBrush, 452, 17, 197, 27);
             g.DrawString("Level: 1 Score: 300 Live: ***", new Font("Calibri", 12F), new SolidBrush(Color.Black), 450, 20);
 
-            //шестиугольник
+            //spaceship
             Point[] points =
             {
                 new Point(300,160),
@@ -63,7 +62,7 @@ namespace TSIS8
             path.CloseFigure();
             g.FillPath(brush1, path);
 
-            //стрелка
+            //gun
             SolidBrush brush2 = new SolidBrush(Color.Green);
             Point[] points1 =
             {
@@ -81,16 +80,27 @@ namespace TSIS8
             path1.CloseFigure();
             g.FillPath(brush2, path1);
 
-            //астероиды
+            //asteroids
             Asteroid asteroid1 = new Asteroid(100, 130, e);
             Asteroid asteroid2 = new Asteroid(150, 240, e);
             Asteroid asteroid3 = new Asteroid(530, 90, e);
             Asteroid asteroid4 = new Asteroid(440, 250, e);
-            
+
+            //bullet
+            Rectangle rectangle = new Rectangle(350, 115, 30, 10);
+            Rectangle rect = new Rectangle(360, 105, 10, 30);
+            GraphicsPath bullet = new GraphicsPath();
+            bullet.AddArc(rectangle, 180, 180);
+            bullet.AddArc(rectangle, 0, 180);
+            g.FillPath(brush2, bullet);
+            bullet.AddArc(rect, 180, 180);
+            bullet.AddArc(rect, 0, 180);
+            g.FillPath(brush2, bullet);
+
         }
     }
     public class Asteroid
-    {//создание астероидов
+    {
         Graphics g;
         int x, y;
         SolidBrush brush = new SolidBrush(Color.Red);
@@ -125,7 +135,7 @@ namespace TSIS8
     }
 
     public class Circle
-    {//класс для создания звезд
+    {
         Graphics g;
         int x;
         int y;
