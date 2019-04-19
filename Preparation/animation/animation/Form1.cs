@@ -21,7 +21,26 @@ namespace animation
             timer1.Interval = 50;
             timer1.Enabled = true;
         }
+        int a = 100, b = 50;
 
+        public void Car(PaintEventArgs e)
+        {
+            Pen pencil = new Pen(Color.Azure);
+            e.Graphics.FillPolygon(pencil.Brush, new Point[]
+            {
+                new Point(a,b),
+                new Point(a+10,b),
+                new Point(a+20,b-10),
+                new Point(a+30,b-10),
+                new Point(a+40,b),
+                new Point(a+50,b),
+                new Point(a+40,b+20),
+                new Point(a+10,b+20)
+            });
+            pencil.Color = Color.Brown;
+            e.Graphics.FillEllipse(pencil.Brush, new Rectangle(a + 7, b+15, 10, 10));
+            e.Graphics.FillEllipse(pencil.Brush, new Rectangle(a + 32, b+15, 10, 10));
+        }
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             g = e.Graphics;
@@ -59,13 +78,16 @@ namespace animation
             path1.StartFigure();
             path1.AddLines(points1);
             path1.CloseFigure();
-            g.FillPath(brush, path1);            
+            g.FillPath(brush, path1);
+
+            Car(e);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             pictureBox1.Refresh();
             x++; y++;
+            a++;
         }
     }
     public class Circle
